@@ -2,6 +2,7 @@
 var express = require("express");
 var path = require("path");
 var fs = require("fs");
+// var noteId=0;
 
 //set up the express and port
 var app = express();
@@ -14,6 +15,7 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }));
 //console.log("OUTSIDE", __dirname)
 app.use(express.json());
+
 //basic routes--
 
 app.get("/notes", function (req, res) {
@@ -30,12 +32,13 @@ app.get("/api/notes/:id", function (req, res) {
     //var myid = choosen.id
     let noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
     res.json(noteData[Number(req.params.id)]);
-    console.log("index",Number(req.params.id));//it gives index number of object array;
+    // console.log("index", Number(req.params.id));//it gives index number of object array;
 
     //console.log("choosen....", myid);
     // noteData.splice(choosen,1);
     // console.log("notedata",noteData);
 });
+
 //post route
 app.post("/api/notes", function (req, res) {
     //read the file in db.json file and assign to the variable
@@ -45,14 +48,16 @@ app.post("/api/notes", function (req, res) {
     //     }
     // });
     //parsing the readfile and making it object and assign to variable
-    var noteData=JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    var noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
     var newNote = req.body;
+    var uniqueID = (noteData.length).toString();
+    newNote.id = uniqueID;
     console.log("new data enter", newNote);
-
+    // newNote.id=getRandomInt(1000);
 
     noteData.push(newNote);
     console.log("inside the array", noteData);
-//after pushing new data into object and writing that object into our file db.json
+    //after pushing new data into object and writing that object into our file db.json
     // fs.writeFile("./db/db.json", JSON.stringify(noteData), function (err) {
     //     if (err) {
     //         throw err;
@@ -63,27 +68,30 @@ app.post("/api/notes", function (req, res) {
     res.sendFile(path.join(__dirname, "./db/db.json"))
 
 });
-app.delete("app/notes/:id",function(req,res){
-    var noteData=JSON.parse(fs.readFileSync("./db/db.json","utf8"));
-    var choosen=req.params.id;
-    console.log(choosen);
-   /// noteData.splice(Number(req.params.id),1);
-    var newId=0;
-    noteData=noteData.filter(currentNote=>{
-        return currentNote.id!=choosen;
+app.delete("/api/notes/:id", function (req, res) {
+    console.log("Called")
+    var noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    var choosen = req.params.id;
+    console.log(choosen)
+    /// noteData.splice(Number(req.params.id),1);
+    var newId = 0;
+    noteData = noteData.filter(currentNote => {
+        return currentNote.id != choosen;
     });
-    for(currentNote of noteData){
-        currentNote.id=newId.toString();
+    for (currentNote of noteData) {
+        currentNote.id = newId.toString();
         newId++;
+
+
+
+        fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
+        //res.sendFile(path.join(__dirname, "./db/db.json"));
+        res.json(noteData);
     }
 
-
-    fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
-    res.sendFile(path.join(__dirname, "./db/db.json"));
-})
-
+   
+});
 app.get("*", function (req, res) {
-    console.log("INSIDE", __dirname)
     res.sendFile(path.join(__dirname, "./public/index.html"))
 });
 
