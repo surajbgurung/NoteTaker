@@ -11,7 +11,10 @@ var PORT = process.env.PORT || 3000;
 //this is use for static file
 app.use(express.static('public'))
 
-
+//route for home page...
+app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/index.html"))
+});
 
 //sets up the express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
