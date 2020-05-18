@@ -35,9 +35,11 @@ app.get("/api/notes/:id", function (req, res) {
     // console.log("index", Number(req.params.id));//it gives index number of object array;
 
     //console.log("choosen....", myid);
-    // noteData.splice(choosen,1);
-    // console.log("notedata",noteData);
+    
 });
+
+
+
 
 //post route
 app.post("/api/notes", function (req, res) {
@@ -49,11 +51,12 @@ app.post("/api/notes", function (req, res) {
     // });
     //parsing the readfile and making it object and assign to variable
     var noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    // var noteData=JSON.parse(readFile);
     var newNote = req.body;
     var uniqueID = (noteData.length).toString();
     newNote.id = uniqueID;
     console.log("new data enter", newNote);
-    // newNote.id=getRandomInt(1000);
+
 
     noteData.push(newNote);
     console.log("inside the array", noteData);
@@ -68,9 +71,19 @@ app.post("/api/notes", function (req, res) {
     res.sendFile(path.join(__dirname, "./db/db.json"))
 
 });
+
+
+//route for delete
 app.delete("/api/notes/:id", function (req, res) {
     console.log("Called")
+    // var readFile = fs.readFile("./db/db.json", "utf8", function (error, data) {
+    //     if (error) {
+    //         return console.log(error);
+    //     }
+    // });
+   // var noteData=JSON.parse(readFile);
     var noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+
     var choosen = req.params.id;
     console.log(choosen)
     /// noteData.splice(Number(req.params.id),1);
@@ -82,8 +95,11 @@ app.delete("/api/notes/:id", function (req, res) {
         currentNote.id = newId.toString();
         newId++;
 
-
-
+        // fs.writeFile("./db/db.json", JSON.stringify(noteData), function (err) {
+        //     if (err) {
+        //         throw err;
+        //     }
+        // });
         fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
         //res.sendFile(path.join(__dirname, "./db/db.json"));
         res.json(noteData);
@@ -91,6 +107,8 @@ app.delete("/api/notes/:id", function (req, res) {
 
    
 });
+
+//route for home page...
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/index.html"))
 });
