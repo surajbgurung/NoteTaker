@@ -14,9 +14,9 @@ var PORT = process.env.PORT || 3000;
 app.use(express.static('public'))
 
 //route for home page...
-app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "./public/index.html"))
-});
+// app.get("/", function (req, res) {
+//     res.sendFile(path.join(__dirname, "./public/index.html"))
+// });
 
 //sets up the express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -103,9 +103,9 @@ app.delete("/api/notes/:id", function (req, res) {
 
 
 //route for home page...
-// app.get("*", function (req, res) {
-//     res.sendFile(path.join(__dirname, "./public/index.html"))
-// });
+app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/index.html"))
+});
 
 
 
