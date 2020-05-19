@@ -7,8 +7,7 @@ var fs = require("fs");
 //set up the express and port
 var app = express();
 var PORT = process.env.PORT || 3000;
-// var PORT = process.env.PORT;
-//var PORT=3000;
+
 
 //this is use for static file
 app.use(express.static('public'))
@@ -109,7 +108,7 @@ app.get("*", function (req, res) {
 
 
 
-//start listening on port,26551
+//start listening on port,
 app.listen(PORT, function () {
     console.log("app listening on PORT" + PORT);
 })
