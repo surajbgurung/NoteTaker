@@ -1,16 +1,23 @@
 {
-  "name": "note-taker",
+  "name": "notetaker",
   "version": "1.0.0",
-  "description": "",
+  "description": "user can able to write and save notes as well as able to delete notes that have been written before.",
   "main": "server.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/surajbgurung/NoteTaker.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/surajbgurung/NoteTaker/issues"
+  },
+  "homepage": "https://github.com/surajbgurung/NoteTaker#readme",
   "dependencies": {
-    "express": "^4.16.4",
-    "nodemon": "^2.0.4",
-    "path": "^0.12.7"
+    "express": "^4.17.1"
   }
 }
